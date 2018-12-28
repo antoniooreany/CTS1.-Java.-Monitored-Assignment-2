@@ -17,6 +17,8 @@ public class Main {
 		UnlimitedInteger x = new UnlimitedInteger(xStr);
 
 		UnlimitedInteger result = a.times(x.times(x)).plus(b.times(x)).plus(c);
+		
+//		UnlimitedInteger result = plus(times(a, times(x, x)), times(b, x));
 
 		System.out.println("ax2 + bx + c = " + result);
 

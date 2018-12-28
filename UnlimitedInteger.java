@@ -1,8 +1,8 @@
 package MonitoredAssignment2;
 
 public class UnlimitedInteger {
-	
-	private String value;
+
+	private final String value;
 
 	public UnlimitedInteger(String value) {
 
@@ -22,29 +22,100 @@ public class UnlimitedInteger {
 	public String toString() {
 		return "UnlimitedInteger: " + value;
 	}
+
 	
-	public UnlimitedInteger times(UnlimitedInteger op) {
-		
-		// For the for loop we use int i, because of this I use this Integer.parseInt();
-		int length = Integer.parseInt(op.getValue()); 
-		
-		UnlimitedInteger result = plus(this);
-		
-		for (int i = 0; i < length - 2; i++) {
-			result = plus(result);
+	public UnlimitedInteger times(UnlimitedInteger op) {	
+		return new UnlimitedInteger(times(value, op.value));
+	}
+
+	private static String times(String op1, String op2) {
+
+		String sign = "";
+		String result = "";
+		String zeros = "";
+
+		if (op1.length() == 0 || op2.length() == 0) {
+			throw new NumberFormatException();
+		}
+
+		if (sign(op1) != sign(op2)) {
+			sign = "-";
+		}
+
+		String unsignedOp1 = getUnsignedNumber(op1);
+		String unsignedOp2 = getUnsignedNumber(op2);
+
+		if (!isValidNumber(unsignedOp1) || !isValidNumber(unsignedOp2)) {
+			throw new NumberFormatException();
+		}
+
+		for (int i = unsignedOp2.length() - 1; i >= 0; i--) {
+			String stringCharOp2 = Character.toString(unsignedOp2.charAt(i));
+			result = plus(result, manyByOneDigitMult(unsignedOp1, stringCharOp2) + zeros);
+			zeros += "0";
+		}
+
+		return sign + result;
+	}
+
+	private static String sign(String number) {
+		if (number.charAt(0) == '-') {
+			return "-";
+		}
+		return "+";
+	}
+
+		// Method checking for errors in the input of the user
+	private static boolean isValidNumber(String number) {
+
+		// Checks for strings a and b if the Unicode value is between values of '0' and
+		// '9'
+		// If it were outside these parameters the characters could be symbols or
+		// letters which are irrelevant for mathematical operations
+		for (int i = 0; i < number.length(); i++) {
+			if (number.charAt(i) < '0' || number.charAt(i) > '9') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static String manyByOneDigitMult(String op1, String op2) {
+
+		String result = "";
+		int carry = 0;
+		int i = op1.length() - 1;
+		int j = op2.length() - 1;
+
+		while (j >= 0 && i >= 0) {
+
+			int intOp1 = op1.charAt(i) - '0';
+			int intOp2 = op2.charAt(j) - '0';
+			int intResult = (intOp1 * intOp2 + carry) % 10;
+			carry = (intOp1 * intOp2 + carry) / 10;
+			i--;
+			result = intResult + result;
+		}
+		if (carry != 0) {
+			return carry + result;
+		}
+		while (result.charAt(0) == '0' && result.length() > 1) {
+			result = result.substring(1);
 		}
 		return result;
 	}
-	
-//	public UnlimitedInteger times(UnlimitedInteger op) {
-//		return result;
-//	}
+
+
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+
 	
 	public UnlimitedInteger plus(UnlimitedInteger op) {
-		
-		return new UnlimitedInteger(plus(value, op.getValue()));		
+
+		return new UnlimitedInteger(plus(value, op.getValue()));
 	}
-	
+
 	private static String plus(String op1, String op2) {
 		String result = "";
 		char sign = 0;
@@ -54,12 +125,12 @@ public class UnlimitedInteger {
 		char sign2 = getSign(op2);
 
 		// Extracting numbers from operands
-		op1 = getNumber(op1);
-		op2 = getNumber(op2);
+		op1 = getUnsignedNumber(op1);
+		op2 = getUnsignedNumber(op2);
 
 		// Getting standartized strings from operands
-		op1 = getStandartizedNumber(op1, op2);
-		op2 = getStandartizedNumber(op2, op1);
+		op1 = getStandartizedOp1(op1, op2);
+		op2 = getStandartizedOp1(op2, op1);
 
 		// Checking 4 cases op1, op2
 		// Both operands have the same sign
@@ -83,12 +154,15 @@ public class UnlimitedInteger {
 		}
 		return result;
 	}
-	
-	// Returns the String number without its sign
-	private static String getNumber(String op) {
 
+	// Returns the String number without its sign
+	private static String getUnsignedNumber(String op) {
+		if (op.length() == 0) {
+			return op;
+		}
+		
 		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
-			return op.substring(1, op.length());
+			return op.substring(1);
 		}
 		return op;
 	}
@@ -163,6 +237,10 @@ public class UnlimitedInteger {
 	private static char getSign(String op) {
 
 		char result = '+';
+		
+		if (op.length() == 0) {
+			return result;
+		}
 		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
 			result = op.charAt(0);
 		}
@@ -170,7 +248,7 @@ public class UnlimitedInteger {
 	}
 
 	// Returns filled with 0's op1 if op1 < op2
-	private static String getStandartizedNumber(String op1, String op2) {
+	private static String getStandartizedOp1(String op1, String op2) {
 
 		int lengthDifference = op2.length() - op1.length();
 
@@ -181,13 +259,4 @@ public class UnlimitedInteger {
 		}
 		return op1;
 	}
-		
-	
-	private String addZeros(int deltaLength, String opValue) {
-		for (int i = 0; i < deltaLength; i++) {
-			opValue = "0" + opValue;
-		}
-		return opValue;
-	}
-
 }
