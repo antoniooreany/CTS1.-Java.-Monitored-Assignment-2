@@ -17,11 +17,31 @@ public class Main {
 		UnlimitedInteger x = new UnlimitedInteger(xStr);
 
 		UnlimitedInteger result = a.times(x.times(x)).plus(b.times(x)).plus(c);
-		
-//		UnlimitedInteger result = plus(times(a, times(x, x)), times(b, x));
 
 		System.out.println("ax2 + bx + c = " + result);
 
+		int aInt = Integer.parseInt(aStr);
+		int bInt = Integer.parseInt(bStr);
+		int cInt = Integer.parseInt(cStr);
+		int xInt = Integer.parseInt(xStr);
+		long resultLong = Long.parseLong(result.getValue());
+
+		System.out.println(resultLong);
+		
+		System.out.println(isCorrect(aInt, bInt, cInt, xInt, resultLong));
+
+//		String op1 = "00001111111";
+//		char charOp2 = '7';
+//
+//		System.out.println(UnlimitedInteger.manyByOneDigitMult(op1, charOp2));
+
 	}
 
+	private static boolean isCorrect(int a, int b, int c, int x, long result) {
+		
+		if (a * x * x + b * x + c == (int)result) {
+			return true;
+		} else
+			return false;
+	}
 }
