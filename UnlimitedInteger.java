@@ -38,7 +38,7 @@ public class UnlimitedInteger {
 			throw new NumberFormatException();
 		}
 
-		if (sign(op1) != sign(op2)) {
+		if (getSign(op1) != getSign(op2)) {
 			sign = "-";
 		}
 
@@ -141,10 +141,10 @@ public class UnlimitedInteger {
 		// Operands have different signs
 		if (sign1 != sign2) {
 			if (isFirstLargerOrEquals(op1, op2)) {
-				result = subtruct(op1, op2);
+				result = subtract(op1, op2);
 				sign = sign1;
 			} else {
-				result = subtruct(op2, op1);
+				result = subtract(op2, op1);
 				sign = sign2;
 			}
 		}
@@ -160,15 +160,14 @@ public class UnlimitedInteger {
 		if (op.length() == 0) {
 			return op;
 		}
-		
 		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
 			return op.substring(1);
 		}
 		return op;
 	}
 
-	// Makes substruction operation, getting op1 > op2
-	private static String subtruct(String op1, String op2) {
+	// Makes subtraction operation, getting op1 > op2
+	private static String subtract(String op1, String op2) {
 
 		String result = "";
 		char carryIn = '0';
