@@ -22,12 +22,13 @@ public class UnlimitedInteger {
 	public String toString() {
 		return "UnlimitedInteger: " + value;
 	}
-
 	
+	// times() in OOP-style
 	public UnlimitedInteger times(UnlimitedInteger op) {	
 		return new UnlimitedInteger(times(value, op.value));
 	}
-
+	
+	// times() in procedure-style
 	private static String times(String op1, String op2) {
 
 		String sign = "";
@@ -51,7 +52,8 @@ public class UnlimitedInteger {
 
 		return sign + result;
 	}
-
+	
+	// Multiplication n-digit number by 1-digit number
 	private static String stringByCharMult(String op1, char charOp2) {
 
 		String result = "";
@@ -76,11 +78,13 @@ public class UnlimitedInteger {
 				
 		return result;
 	}
-
+	
+	// plus() in OOP-style
 	public UnlimitedInteger plus(UnlimitedInteger op) {
 		return new UnlimitedInteger(plus(value, op.getValue()));
 	}
 
+	// plus() in procedure-style
 	private static String plus(String op1, String op2) {
 		String result = "";
 		char sign = 0;
@@ -113,7 +117,7 @@ public class UnlimitedInteger {
 				sign = sign2;
 			}
 		}
-		// Return result with its sign (if needed)
+		// Returns result with its sign (if needed)
 		if (sign == '-') {
 			result = sign + result;
 		}
