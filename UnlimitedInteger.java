@@ -36,19 +36,126 @@ public class UnlimitedInteger {
 		return result;
 	}
 	
-//	public UnlimitedInteger times(UnlimitedInteger op) {
-//		return result;
-//	}
+	
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////	
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	
+	
+	public static String times(String a, String b) {
+
+		String sign = "";
+		String result = "";
+		String zeros = "";
+
+		if (a.length() == 0 || b.length() == 0) {
+			throw new NumberFormatException();
+		}
+
+		if (sign(a) != sign(b)) {
+			sign = "-";
+		}
+
+		String aWithoutSign = deleteSign(a);
+		String bWithoutSign = deleteSign(b);
+
+		if (!isValidNumber(aWithoutSign) || !isValidNumber(bWithoutSign)) {
+			throw new NumberFormatException();
+		}
+
+		for (int j = bWithoutSign.length() - 1; j >= 0; j--) {
+			String stringB = Character.toString(bWithoutSign.charAt(j));
+			result = plus(result, manyByOneDigitMult(aWithoutSign, stringB) + zeros);
+			zeros += "0";
+		}
+
+		return sign + result;
+	}
+
+	private static String sign(String number) {
+
+		if (number.charAt(0) == '-') {
+			return "-";
+		}
+		return "+";
+	}
+	
+	// Method checking for errors in the input of the user
+	public static boolean isValidNumber(String a) {
+
+		// Checks for strings a and b if the Unicode value is between values of '0' and
+		// '9'
+		// If it were outside these parameters the characters could be symbols or
+		// letters which are irrelevant for mathematical operations
+		for (int i = a.length() - 1; i >= 0; i--) {
+			if (a.charAt(i) < '0' || a.charAt(i) > '9') {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private static String manyByOneDigitMult(String a, String b) {
+
+		String result = "";
+		int carry = 0;
+		int i = a.length() - 1;
+		int j = b.length() - 1;
+
+		while (j >= 0 && i >= 0) {
+
+			int value1 = a.charAt(i) - '0';
+			int value2 = b.charAt(j) - '0';
+			int value3 = (value1 * value2 + carry) % 10;
+			carry = (value1 * value2 + carry) / 10;
+			i--;
+			result = value3 + result;
+		}
+		if (carry != 0) {
+			return carry + result;
+		}
+		while (result.charAt(0) == '0' && result.length() > 1) {
+			result = result.substring(1);
+		}
+		return result;
+	}
+
+	private static String deleteSign(String number) {
+		if (number.charAt(0) == '+' || number.charAt(0) == '-') {
+			number = number.substring(1);
+		}
+		return number;
+	}
+	
+	
+	
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////	
+	
+	
 	
 	public UnlimitedInteger plus(UnlimitedInteger op) {
 		
 		return new UnlimitedInteger(plus(value, op.getValue()));		
 	}
 	
-	private static String plus(String op1, String op2) {
+	public static String plus(String op1, String op2) {
 		String result = "";
 		char sign = 0;
 
+		if (op1.length() == 0) {
+			return op2;
+		}
+		
+		if (op2.length() == 0) {
+			return op1;
+		}
+		
 		// Extracting signs from operands
 		char sign1 = getSign(op1);
 		char sign2 = getSign(op2);
