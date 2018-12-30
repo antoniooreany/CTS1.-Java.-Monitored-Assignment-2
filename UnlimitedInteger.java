@@ -5,7 +5,6 @@ public class UnlimitedInteger {
 	private final String value;
 
 	public UnlimitedInteger(String value) {
-
 		// Checking parameter value for validity
 		String regex = "[+-]?\\d+";
 		if (value.matches(regex)) {
@@ -30,7 +29,6 @@ public class UnlimitedInteger {
 	
 	// times() in procedure-style
 	private static String times(String op1, String op2) {
-
 		String sign = "";
 		String result = "";
 		String zeros = "";
@@ -55,7 +53,6 @@ public class UnlimitedInteger {
 	
 	// Multiplication n-digit number by 1-digit number
 	private static String stringByCharMult(String op1, char charOp2) {
-
 		String result = "";
 		int carry = 0;
 
@@ -127,20 +124,33 @@ public class UnlimitedInteger {
 		return result;
 	}
 
-	// Returns the String number without its sign
-	private static String getUnsignedOp(String op) {
-		if (op.length() == 0) {
-			return op;
+	// Makes sum operation with 2 positive ops.
+	private static String sum(String op1, String op2) {
+		String result = "";
+		char carryIn = '0';
+		char carryOut = '0';
+		char charSum = '0';
+		for (int index = op1.length() - 1; index >= 0; index--) {
+			carryIn = carryOut;
+			char c1 = op1.charAt(index);
+			char c2 = op2.charAt(index);
+			if (c1 + c2 + carryIn > '9' + '0' + '0') {
+				charSum = (char) (c1 + c2 + carryIn - '0' - '9' - 1);
+				carryOut = '1';
+			} else {
+				charSum = (char) (c1 + c2 + carryIn - '0' - '0');
+				carryOut = '0';
+			}
+			result = charSum + result;
 		}
-		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
-			return op.substring(1);
+		if (carryOut == '1') {
+			result = carryOut + result;
 		}
-		return op;
-	}
-
+		return result;
+	}	
+	
 	// Makes subtraction operation, getting positive op1, op2, where op1 > op2
 	private static String subtract(String op1, String op2) {
-
 		String result = "";
 		char carryIn = '0';
 		char carryOut = '0';
@@ -165,35 +175,19 @@ public class UnlimitedInteger {
 		return result;
 	}
 
-	// Makes sum operation with 2 positive ops.
-	private static String sum(String op1, String op2) {
-
-		String result = "";
-		char carryIn = '0';
-		char carryOut = '0';
-		char charSum = '0';
-		for (int index = op1.length() - 1; index >= 0; index--) {
-			carryIn = carryOut;
-			char c1 = op1.charAt(index);
-			char c2 = op2.charAt(index);
-			if (c1 + c2 + carryIn > '9' + '0' + '0') {
-				charSum = (char) (c1 + c2 + carryIn - '0' - '9' - 1);
-				carryOut = '1';
-			} else {
-				charSum = (char) (c1 + c2 + carryIn - '0' - '0');
-				carryOut = '0';
+	// Returns the String number without its sign
+		private static String getUnsignedOp(String op) {
+			if (op.length() == 0) {
+				return op;
 			}
-			result = charSum + result;
-		}
-		if (carryOut == '1') {
-			result = carryOut + result;
-		}
-		return result;
-	}
-
+			if (op.charAt(0) == '+' || op.charAt(0) == '-') {
+				return op.substring(1);
+			}
+			return op;
+		}	
+	
 	// Returns true if op1 > op2, otherwise returns false.
 	private static boolean isFirstLargerOrEquals(String op1, String op2) {
-
 		for (int index = 0; index < op1.length(); index++) {
 			if (op1.charAt(index) > op2.charAt(index)) {
 				return true;
@@ -206,7 +200,6 @@ public class UnlimitedInteger {
 
 	// Returns sign of op.
 	private static char getSign(String op) {
-
 		char result = '+';
 		
 		if (op.length() == 0) {
@@ -220,7 +213,6 @@ public class UnlimitedInteger {
 
 	// Returns filled with 0's op1 if op1 < op2.
 	private static String getStandartizedOp1(String op1, String op2) {
-
 		int lengthDifference = op2.length() - op1.length();
 
 		if (lengthDifference > 0) {
