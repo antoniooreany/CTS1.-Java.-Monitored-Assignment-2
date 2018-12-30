@@ -16,34 +16,34 @@ public class Main {
 
 		UnlimitedInteger result = a.times(x.times(x)).plus(b.times(x)).plus(c);
 
-		System.out.println("ax2 + bx + c = " + result);
+		Terminal.put("ax2 + bx + c = " + result.getValue());
 
 		
-		// Automatic checking if the times() works correctly
+		// Automatic testing if the times() works correctly
 		String checking = "";
 
-		int aInt = 0;
-		int bInt = 0;
-		int cInt = 0;
-		int xInt = 0;
+		long aInt = 0;
+		long bInt = 0;
+		long cInt = 0;
+		long xInt = 0;
 		long resultLong = 0L;
 
 		try {
-			aInt = Integer.parseInt(aStr);
-			bInt = Integer.parseInt(bStr);
-			cInt = Integer.parseInt(cStr);
-			xInt = Integer.parseInt(xStr);
+			aInt = Long.parseLong(aStr);
+			bInt = Long.parseLong(bStr);
+			cInt = Long.parseLong(cStr);
+			xInt = Long.parseLong(xStr);
 			resultLong = Long.parseLong(result.getValue());
-			checking = isCorrect(aInt, bInt, cInt, xInt, resultLong) ? "true" : "false";
+			checking = isCorrect(aInt, bInt, cInt, xInt, resultLong) ? "YES" : "NO";
 		} catch (NumberFormatException e) {
-			checking = "unknown";
+			checking = "UNKNOWN";
 		} 
 		
-		System.out.println("The times() method works correctly: " + checking);
+		Terminal.put("\n\nThe times() method works correctly: " + checking);
 	}
 
-	private static boolean isCorrect(int a, int b, int c, int x, long result) {
-		if (a * x * x + b * x + c == (int) result) {
+	private static boolean isCorrect(long a, long b, long c, long x, long result) {
+		if (a * x * x + b * x + c == result) {
 			return true;
 		} else
 			return false;
