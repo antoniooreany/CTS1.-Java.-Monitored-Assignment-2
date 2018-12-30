@@ -6,8 +6,7 @@ public class UnlimitedInteger {
 
 	public UnlimitedInteger(String value) {
 		// Checking parameter value for validity
-		String regex = "[+-]?\\d+";
-		if (value.matches(regex)) {
+		if (value.matches("[+-]?\\d+")) {
 			this.value = value;
 		} else {
 			throw new IllegalArgumentException();
@@ -23,8 +22,8 @@ public class UnlimitedInteger {
 	}
 
 	// times() in OOP-style
-	public UnlimitedInteger times(UnlimitedInteger op) {
-		return new UnlimitedInteger(times(value, op.value));
+	public UnlimitedInteger times(UnlimitedInteger unlimInteger) {
+		return new UnlimitedInteger(times(value, unlimInteger.value));
 	}
 
 	// times() in procedure-style
@@ -32,32 +31,33 @@ public class UnlimitedInteger {
 		String sign = "";
 		String result = "";
 		String zeros = "";
+		// If signs of operands not equal, result sign must be "-";
 		if (getSign(op1) != getSign(op2)) {
 			sign = "-";
 		}
-		String unsignedOp1 = getUnsignedOp(op1);
-		String unsignedOp2 = getUnsignedOp(op2);
-		for (int i = unsignedOp2.length() - 1; i >= 0; i--) {
-			char charOp2 = unsignedOp2.charAt(i);
-			result = plus(result, stringTimesChar(unsignedOp1, charOp2) + zeros);
+		op1 = getUnsigned(op1);
+		op2 = getUnsigned(op2);
+		for (int i = op2.length() - 1; i >= 0; i--) {
+			char char2 = op2.charAt(i);
+			result = plus(result, stringTimesChar(op1, char2) + zeros);
 			zeros += "0";
 		}
-		result = deleteLeadingZeros(result);
+		result = subZeros(result);
 		return sign + result;
 	}
 
 	// Multiplication n-digit number by 1-digit number
-	private static String stringTimesChar(String op1, char charOp2) {
+	private static String stringTimesChar(String op1, char char2) {
 		String result = "";
 		int carry = 0;
 		if (op1.length() == 0) {
 			return "";
 		}
-		int intOp2 = charOp2 - '0';
+		int int2 = char2 - '0';
 		for (int i = op1.length() - 1; i >= 0; --i) {
-			int intOp1 = op1.charAt(i) - '0';
-			int intResult = (intOp1 * intOp2 + carry) % 10;
-			carry = (intOp1 * intOp2 + carry) / 10;
+			int int1 = op1.charAt(i) - '0';
+			int intResult = (int1 * int2 + carry) % 10;
+			carry = (int1 * int2 + carry) / 10;
 			result = intResult + result;
 		}
 		if (carry != 0) {
@@ -67,8 +67,8 @@ public class UnlimitedInteger {
 	}
 
 	// plus() in OOP-style
-	public UnlimitedInteger plus(UnlimitedInteger op) {
-		return new UnlimitedInteger(plus(value, op.getValue()));
+	public UnlimitedInteger plus(UnlimitedInteger unlimInteger) {
+		return new UnlimitedInteger(plus(value, unlimInteger.getValue()));
 	}
 
 	// plus() in procedure-style
@@ -79,24 +79,24 @@ public class UnlimitedInteger {
 		char sign1 = getSign(op1);
 		char sign2 = getSign(op2);
 		// Extracting numbers from operands
-		op1 = getUnsignedOp(op1);
-		op2 = getUnsignedOp(op2);
-		// Getting standartized strings from operands
-		op1 = getStandartizedOp1(op1, op2);
-		op2 = getStandartizedOp1(op2, op1);
+		op1 = getUnsigned(op1);
+		op2 = getUnsigned(op2);
+		// Getting strings with the same length from operands
+		op1 = addZeros(op1, op2);
+		op2 = addZeros(op2, op1);
 		// Checking 4 cases op1, op2
 		// Both operands have the same sign
 		if (sign1 == sign2) {
-			result = sum(op1, op2);
+			result = addition(op1, op2);
 			sign = sign1;
 		}
 		// Operands have different signs
 		if (sign1 != sign2) {
-			if (isFirstLargerOrEquals(op1, op2)) {
-				result = subtract(op1, op2);
+			if (isFirstBigger(op1, op2)) {
+				result = subtraction(op1, op2);
 				sign = sign1;
 			} else {
-				result = subtract(op2, op1);
+				result = subtraction(op2, op1);
 				sign = sign2;
 			}
 		}
@@ -104,13 +104,12 @@ public class UnlimitedInteger {
 		if (sign == '-') {
 			result = sign + result;
 		}
-		result = deleteLeadingZeros(result);
+		result = subZeros(result);
 		return result;
 	}
 
 	// Makes sum operation with 2 positive ops with the same length.
-	private static String sum(String op1, String op2) {
-		// Local variables initialization.
+	private static String addition(String op1, String op2) {
 		String result = "";
 		int carry = 0;
 		int sum = 0;
@@ -130,8 +129,7 @@ public class UnlimitedInteger {
 
 	// Makes subtraction operation, getting positive op1, op2 with the same length,
 	// where op1 > op2
-	private static String subtract(String op1, String op2) {
-		// Local variables initialization.
+	private static String subtraction(String op1, String op2) {
 		String result = "";
 		int carry = 0;
 		int substr = 0;
@@ -151,12 +149,26 @@ public class UnlimitedInteger {
 		return result;
 	}
 
+	// Returns sign of an argument.
+	private static char getSign(String op) {
+		// If op is empty String, returns "+"
+		if (op.length() == 0) {
+			return '+';
+		}
+		// If a first character of op is '+' or '-', returns this character.
+		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
+			return op.charAt(0);
+		} else
+			return '+';
+	}
+
 	// Returns the String number without its sign
-	public static String getUnsignedOp(String op) {
+	private static String getUnsigned(String op) {
 		// If op is empty String, returns op
 		if (op.length() == 0) {
 			return op;
 		}
+		// If a first character of op is '+' or '-', returns op without first character.
 		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
 			return op.substring(1);
 		}
@@ -164,7 +176,7 @@ public class UnlimitedInteger {
 	}
 
 	// Returns true if op1 > op2, otherwise returns false.
-	private static boolean isFirstLargerOrEquals(String op1, String op2) {
+	private static boolean isFirstBigger(String op1, String op2) {
 		for (int index = 0; index < op1.length(); index++) {
 			if (op1.charAt(index) > op2.charAt(index)) {
 				return true;
@@ -172,22 +184,19 @@ public class UnlimitedInteger {
 				return false;
 			}
 		}
-		return true;
+		return false;
 	}
 
-	// Returns sign of op.
-	private static char getSign(String op) {
-		// If op is empty String, returns "+"
-		if (op.length() == 0) {
-			return '+';
+	// Deletes all redundant leading zeros.
+	private static String subZeros(String result) {
+		while (result.charAt(0) == '0' && result.length() > 1) {
+			result = result.substring(1);
 		}
-		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
-			return op.charAt(0);
-		} else return '+';
+		return result;
 	}
 
 	// Returns filled with 0's op1 if op1 < op2.
-	private static String getStandartizedOp1(String op1, String op2) {
+	private static String addZeros(String op1, String op2) {
 		int lengthDifference = op2.length() - op1.length();
 		if (lengthDifference > 0) {
 			for (int index = 0; index < lengthDifference; index++) {
@@ -195,13 +204,5 @@ public class UnlimitedInteger {
 			}
 		}
 		return op1;
-	}
-
-	// Deletes all of the redundant leading zeros.
-	private static String deleteLeadingZeros(String result) {
-		while (result.charAt(0) == '0' && result.length() > 1) {
-			result = result.substring(1);
-		}
-		return result;
 	}
 }
