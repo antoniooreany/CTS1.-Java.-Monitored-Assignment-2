@@ -45,6 +45,9 @@ public class Main {
 //		String op2 = "18";
 //
 //		System.out.println(UnlimitedInteger.subtract(op1, op2));
+		
+//		System.out.println(UnlimitedInteger.getUnsignedOp("+"));
+//		System.out.println("+1".substring(1));
 
 	}
 

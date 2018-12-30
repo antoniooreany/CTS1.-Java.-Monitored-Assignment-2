@@ -32,22 +32,17 @@ public class UnlimitedInteger {
 		String sign = "";
 		String result = "";
 		String zeros = "";
-
 		if (getSign(op1) != getSign(op2)) {
 			sign = "-";
 		}
-
 		String unsignedOp1 = getUnsignedOp(op1);
 		String unsignedOp2 = getUnsignedOp(op2);
-
 		for (int i = unsignedOp2.length() - 1; i >= 0; i--) {
 			char charOp2 = unsignedOp2.charAt(i);
 			result = plus(result, stringTimesChar(unsignedOp1, charOp2) + zeros);
 			zeros += "0";
 		}
-
 		result = deleteLeadingZeros(result);
-
 		return sign + result;
 	}
 
@@ -55,24 +50,19 @@ public class UnlimitedInteger {
 	private static String stringTimesChar(String op1, char charOp2) {
 		String result = "";
 		int carry = 0;
-
 		if (op1.length() == 0) {
 			return "";
 		}
-
 		int intOp2 = charOp2 - '0';
-
 		for (int i = op1.length() - 1; i >= 0; --i) {
 			int intOp1 = op1.charAt(i) - '0';
 			int intResult = (intOp1 * intOp2 + carry) % 10;
 			carry = (intOp1 * intOp2 + carry) / 10;
 			result = intResult + result;
 		}
-
 		if (carry != 0) {
 			return carry + result;
 		}
-
 		return result;
 	}
 
@@ -82,22 +72,18 @@ public class UnlimitedInteger {
 	}
 
 	// plus() in procedure-style
-	public static String plus(String op1, String op2) {
+	private static String plus(String op1, String op2) {
 		String result = "";
 		char sign = 0;
-
 		// Extracting signs from operands
 		char sign1 = getSign(op1);
 		char sign2 = getSign(op2);
-
 		// Extracting numbers from operands
 		op1 = getUnsignedOp(op1);
 		op2 = getUnsignedOp(op2);
-
 		// Getting standartized strings from operands
 		op1 = getStandartizedOp1(op1, op2);
 		op2 = getStandartizedOp1(op2, op1);
-
 		// Checking 4 cases op1, op2
 		// Both operands have the same sign
 		if (sign1 == sign2) {
@@ -118,17 +104,17 @@ public class UnlimitedInteger {
 		if (sign == '-') {
 			result = sign + result;
 		}
-
 		result = deleteLeadingZeros(result);
-
 		return result;
 	}
 
 	// Makes sum operation with 2 positive ops with the same length.
-	public static String sum(String op1, String op2) {
+	private static String sum(String op1, String op2) {
+		// Local variables initialization.
 		String result = "";
 		int carry = 0;
 		int sum = 0;
+		// Sum operation implementation.
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
@@ -136,7 +122,7 @@ public class UnlimitedInteger {
 			carry = (c1 + c2 + carry) / 10;
 			result = sum + result;
 		}
-		if (carry == '1') {
+		if (carry == 1) {
 			result = carry + result;
 		}
 		return result;
@@ -144,10 +130,12 @@ public class UnlimitedInteger {
 
 	// Makes subtraction operation, getting positive op1, op2 with the same length,
 	// where op1 > op2
-	public static String subtract(String op1, String op2) {
+	private static String subtract(String op1, String op2) {
+		// Local variables initialization.
 		String result = "";
 		int carry = 0;
 		int substr = 0;
+		// Subtract operation implementation.
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
@@ -164,7 +152,8 @@ public class UnlimitedInteger {
 	}
 
 	// Returns the String number without its sign
-	private static String getUnsignedOp(String op) {
+	public static String getUnsignedOp(String op) {
+		// If op is empty String, returns op
 		if (op.length() == 0) {
 			return op;
 		}
@@ -188,21 +177,18 @@ public class UnlimitedInteger {
 
 	// Returns sign of op.
 	private static char getSign(String op) {
-		char result = '+';
-
+		// If op is empty String, returns "+"
 		if (op.length() == 0) {
-			return result;
+			return '+';
 		}
 		if (op.charAt(0) == '+' || op.charAt(0) == '-') {
-			result = op.charAt(0);
-		}
-		return result;
+			return op.charAt(0);
+		} else return '+';
 	}
 
 	// Returns filled with 0's op1 if op1 < op2.
 	private static String getStandartizedOp1(String op1, String op2) {
 		int lengthDifference = op2.length() - op1.length();
-
 		if (lengthDifference > 0) {
 			for (int index = 0; index < lengthDifference; index++) {
 				op1 = '0' + op1;
