@@ -35,11 +35,22 @@ public class Main {
 //
 //		System.out.println(UnlimitedInteger.manyByOneDigitMult(op1, charOp2));
 
+//		String op1 = "12345";
+//		String op2 = "12345";
+//		System.out.println(UnlimitedInteger.sum(op1, op2));
+
+//		System.out.println(-3/10);
+
+//		String op1 = "34";
+//		String op2 = "18";
+//
+//		System.out.println(UnlimitedInteger.subtract(op1, op2));
+
 	}
 
 	private static boolean isCorrect(int a, int b, int c, int x, long result) {
-		
-		if (a * x * x + b * x + c == (int)result) {
+
+		if (a * x * x + b * x + c == (int) result) {
 			return true;
 		} else
 			return false;
