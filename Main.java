@@ -20,7 +20,7 @@ public class Main {
 
 		
 		// Automatic testing if the times() works correctly
-		String checking = "";
+		String isCorrect = "";
 
 		long aInt = 0;
 		long bInt = 0;
@@ -34,12 +34,12 @@ public class Main {
 			cInt = Long.parseLong(cStr);
 			xInt = Long.parseLong(xStr);
 			resultLong = Long.parseLong(result.getValue());
-			checking = isCorrect(aInt, bInt, cInt, xInt, resultLong) ? "YES" : "NO";
+			isCorrect = isCorrect(aInt, bInt, cInt, xInt, resultLong) ? "YES" : "NO";
 		} catch (NumberFormatException e) {
-			checking = "UNKNOWN";
+			isCorrect = "UNKNOWN";
 		} 
 		
-		Terminal.put("\n\nThe times() method works correctly: " + checking);
+		Terminal.put("\n\nThe times() method works correctly: " + isCorrect);
 	}
 
 	private static boolean isCorrect(long a, long b, long c, long x, long result) {
