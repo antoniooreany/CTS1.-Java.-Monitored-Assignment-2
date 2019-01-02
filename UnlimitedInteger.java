@@ -39,7 +39,7 @@ public class UnlimitedInteger {
 		op2 = getUnsigned(op2);
 		for (int i = op2.length() - 1; i >= 0; i--) {
 			char char2 = op2.charAt(i);
-			result = plus(result, stringTimesChar(op1, char2) + zeros);
+			result = plus(result, times(op1, char2) + zeros);
 			zeros += "0";
 		}
 		result = subZeros(result);
@@ -47,7 +47,7 @@ public class UnlimitedInteger {
 	}
 
 	// Multiplication n-digit number by 1-digit number
-	private static String stringTimesChar(String op1, char char2) {
+	private static String times(String op1, char char2) {
 		String result = "";
 		int carry = 0;
 		if (op1.length() == 0) {
