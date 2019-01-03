@@ -117,8 +117,8 @@ public class UnlimitedInteger {
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
-			sum = (c1 + c2 + carry) % 10;
-			carry = (c1 + c2 + carry) / 10;
+			sum = (c1 + c2 + carry) % 10;	// TODO addition() has more general algorithm compared with subtraction(). 
+			carry = (c1 + c2 + carry) / 10;	// TODO Try to make them similar.
 			result = sum + result;
 		}
 		if (carry == 1) {
@@ -138,8 +138,8 @@ public class UnlimitedInteger {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
 			if (c1 - c2 + carry < 0) {
-				substr = 10 + c1 - c2 + carry;
-				carry = -1;
+				substr = 10 + c1 - c2 + carry;	// TODO addition() has more general algorithm compared with subtraction(). 
+				carry = -1;						// TODO Try to make them similar.
 			} else {
 				substr = c1 - c2 + carry;
 				carry = 0;
