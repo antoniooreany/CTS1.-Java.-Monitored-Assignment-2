@@ -195,7 +195,7 @@ public class UnlimitedInteger {
 		return result;
 	}
 
-	// Returns filled with 0's op1 if op1 < op2.
+	// Returns filled with 0's op1 if op1.length() < op2.length().
 	private static String addZeros(String op1, String op2) {
 		int lengthDifference = op2.length() - op1.length();
 		if (lengthDifference > 0) {
