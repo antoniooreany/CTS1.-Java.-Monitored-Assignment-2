@@ -132,19 +132,19 @@ public class UnlimitedInteger {
 	private static String subtraction(String op1, String op2) {
 		String result = "";
 		int carry = 0;
-		int substr = 0;
+		int subtr = 0;
 		// Subtract operation implementation.
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
 			if (c1 - c2 + carry < 0) {
-				substr = 10 + c1 - c2 + carry;	// TODO addition() has more general algorithm compared with subtraction(). 
+				subtr = 10 + c1 - c2 + carry;	// TODO addition() has more general algorithm compared with subtraction(). 
 				carry = -1;						// TODO Try to make them similar.
 			} else {
-				substr = c1 - c2 + carry;
+				subtr = c1 - c2 + carry;
 				carry = 0;
 			}
-			result = substr + result;
+			result = subtr + result;
 		}
 		return result;
 	}
