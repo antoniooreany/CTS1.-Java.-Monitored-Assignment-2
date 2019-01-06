@@ -37,6 +37,7 @@ public class UnlimitedInteger {
 		}
 		op1 = getUnsigned(op1);
 		op2 = getUnsigned(op2);
+		// The core code of the method
 		for (int i = op2.length() - 1; i >= 0; i--) {
 			char char2 = op2.charAt(i);
 			result = plus(result, times(op1, char2) + zeros);
@@ -54,6 +55,7 @@ public class UnlimitedInteger {
 			return "";
 		}
 		int int2 = char2 - '0';
+		// The core code of the method
 		for (int i = op1.length() - 1; i >= 0; --i) {
 			int int1 = op1.charAt(i) - '0';
 			int intResult = (int1 * int2 + carry) % 10;
@@ -113,7 +115,7 @@ public class UnlimitedInteger {
 		String result = "";
 		int carry = 0;
 		int sum = 0;
-		// Sum operation implementation.
+		// The core code of the method
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
@@ -133,7 +135,7 @@ public class UnlimitedInteger {
 		String result = "";
 		int carry = 0;
 		int subtr = 0;
-		// Subtract operation implementation.
+		// The core code of the method
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
