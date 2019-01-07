@@ -23,14 +23,11 @@ public class UnlimitedInteger {
 
 	// times() in OOP-style
 	public UnlimitedInteger times(UnlimitedInteger unlimInteger) {
-		return new UnlimitedInteger(times(value, unlimInteger.value));
-	}
-
-	// times() in procedure-style
-	private static String times(String op1, String op2) {
 		String sign = "";
 		String result = "";
 		String zeros = "";
+		String op1 = value;
+		String op2 = unlimInteger.value;
 		// If signs of operands not equal, result sign must be "-";
 		if (getSign(op1) != getSign(op2)) {
 			sign = "-";
@@ -44,7 +41,7 @@ public class UnlimitedInteger {
 			zeros += "0";
 		}
 		result = subZeros(result);
-		return sign + result;
+		return new UnlimitedInteger(sign + result);
 	}
 
 	// Multiplication n-digit number by 1-digit number
