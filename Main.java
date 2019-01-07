@@ -39,7 +39,7 @@ public class Main {
 			isCorrect = "UNKNOWN";
 		} 
 		
-		Terminal.put("\n\nThe times() method works correctly: " + isCorrect);
+		Terminal.put("\n\nCorrect work of the times() method: " + isCorrect);
 	}
 
 	private static boolean isCorrect(long a, long b, long c, long x, long result) {
