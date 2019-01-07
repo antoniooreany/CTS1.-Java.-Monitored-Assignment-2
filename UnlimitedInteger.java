@@ -24,7 +24,8 @@ public class UnlimitedInteger {
 	// times() in OOP-style
 	public UnlimitedInteger times(UnlimitedInteger unlimInteger) {
 		String sign = "";
-		String result = "";
+		String result = "0"; // TODO: After rewriting the plus() method in OOP-style result should be
+								// initialized by "0".
 		String zeros = "";
 		String op1 = value;
 		String op2 = unlimInteger.value;
@@ -37,7 +38,8 @@ public class UnlimitedInteger {
 		// The core code of the method
 		for (int i = op2.length() - 1; i >= 0; i--) {
 			char char2 = op2.charAt(i);
-			result = plus(result, times(op1, char2) + zeros);
+//			result = plus(result, times(op1, char2) + zeros); // TODO: Before rewriting the plus() method in OOP-style this line looked like this.
+			result = new UnlimitedInteger(result).plus(new UnlimitedInteger(times(op1, char2) + zeros)).getValue(); // TODO: After rewriting the plus() method in OOP-style this line looked like this.
 			zeros += "0";
 		}
 		result = subZeros(result);
@@ -67,13 +69,10 @@ public class UnlimitedInteger {
 
 	// plus() in OOP-style
 	public UnlimitedInteger plus(UnlimitedInteger unlimInteger) {
-		return new UnlimitedInteger(plus(value, unlimInteger.getValue()));
-	}
-
-	// plus() in procedure-style
-	private static String plus(String op1, String op2) {
 		String result = "";
 		char sign = 0;
+		String op1 = value;
+		String op2 = unlimInteger.value;
 		// Extracting signs from operands
 		char sign1 = getSign(op1);
 		char sign2 = getSign(op2);
@@ -104,7 +103,7 @@ public class UnlimitedInteger {
 			result = sign + result;
 		}
 		result = subZeros(result);
-		return result;
+		return new UnlimitedInteger(result);
 	}
 
 	// Makes sum operation with 2 positive ops with the same length.
@@ -116,8 +115,8 @@ public class UnlimitedInteger {
 		for (int index = op1.length() - 1; index >= 0; index--) {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
-			sum = (c1 + c2 + carry) % 10;	// TODO addition() has more general algorithm compared with subtraction(). 
-			carry = (c1 + c2 + carry) / 10;	// TODO Try to make them similar.
+			sum = (c1 + c2 + carry) % 10; // TODO addition() has more general algorithm compared with subtraction().
+			carry = (c1 + c2 + carry) / 10; // TODO Try to make them similar.
 			result = sum + result;
 		}
 		if (carry == 1) {
@@ -137,8 +136,8 @@ public class UnlimitedInteger {
 			int c1 = op1.charAt(index) - '0';
 			int c2 = op2.charAt(index) - '0';
 			if (c1 - c2 + carry < 0) {
-				subtr = 10 + c1 - c2 + carry;	// TODO addition() has more general algorithm compared with subtraction(). 
-				carry = -1;						// TODO Try to make them similar.
+				subtr = 10 + c1 - c2 + carry; // TODO addition() has more general algorithm compared with subtraction().
+				carry = -1; // TODO Try to make them similar.
 			} else {
 				subtr = c1 - c2 + carry;
 				carry = 0;
