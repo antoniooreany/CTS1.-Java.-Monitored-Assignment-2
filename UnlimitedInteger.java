@@ -24,8 +24,7 @@ public class UnlimitedInteger {
 	// times() in OOP-style
 	public UnlimitedInteger times(UnlimitedInteger unlimInteger) {
 		String sign = "";
-		String result = "0"; // TODO: After rewriting the plus() method in OOP-style result should be
-								// initialized by "0".
+		String result = "0"; // TODO: After rewriting the plus() method in OOP-style result should be initialized by "0".
 		String zeros = "";
 		String op1 = value;
 		String op2 = unlimInteger.value;
